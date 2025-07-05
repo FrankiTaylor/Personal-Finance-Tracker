@@ -3,28 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Traker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: darkgrey;
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #666;
-        }
-    </style>
+    <title>Excel Categorizer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to Finance Tracker</h1>
-    <p>This is a simple finance tracker application.</p>
-
-
-    <script src="xls.full.min.js"></script>
+    <div class="container">
+        <h1>Excel Categorizer</h1>
+        <div class="input-row">
+            <label for="inputName">Name:</label>
+            <input type="text" id="inputName" placeholder="Enter a name">
+            <input type="file" id="excelFileInput" accept=".xlsx, .xls">
+        </div>
+        <div id="dataDisplay" class="data-display"></div>
+    </div>
+    <script src="xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

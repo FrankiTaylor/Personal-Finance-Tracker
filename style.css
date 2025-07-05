@@ -1,0 +1,99 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: black;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: whitesmoke;
+}
+
+input[type="file"] {
+    display: block;
+    margin: 20px auto;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+/* text of the table */
+.data-display {
+    margin-top: 20px;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid white;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Top row of the table */
+th {
+    background-color: transparent
+}
+
+.input-row {
+    background-color: lightgray;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #black;
+    border-radius: 4px;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.categorized-data h2 {
+    margin-top: 20px;
+}
+
+.categorized-data ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.categorized-data li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    padding: 8px;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
