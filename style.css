@@ -1,8 +1,10 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: black;
     margin: 0;
     padding: 20px;
+    color: white;
 }
 
 .container {
@@ -19,14 +21,86 @@ h1 {
     color: whitesmoke;
 }
 
+/* Input and Button Styles */
 input[type="file"] {
     display: block;
     margin: 20px auto;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    background-color: white;
 }
-/* text of the table */
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: darkgray;
+    cursor: auto;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: darkgray;
+}
+
+.custom-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.overview-button, .setupAccounts-button, .home-button{
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    background-color: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.home-button {
+    left: 0;
+}
+
+.overview-button {
+    left: 210px;
+}
+
+.setupAccounts-button {
+    left: 80px;
+}
+
+#addCategory-button {
+    position: fixed;
+    top: 0;
+    bottom: 900px;
+    left: 240px;
+    right: 300px;
+    padding: 10px 20px;
+    background-color: pink;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: auto;
+}
+
+/* Table Styles */
 .data-display {
     margin-top: 20px;
     color: white;
@@ -43,39 +117,11 @@ th, td {
     text-align: left;
 }
 
-/* Top row of the table */
 th {
-    background-color: transparent
+    background-color: transparent;
 }
 
-.input-row {
-    background-color: lightgray;
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #black;
-    border-radius: 4px;
-}
-
-button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-button[disabled] {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
+/* Categorized Data Styles */
 .categorized-data h2 {
     margin-top: 20px;
 }
@@ -85,15 +131,10 @@ button[disabled] {
     padding: 0;
 }
 
+
 .categorized-data li {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     margin-bottom: 5px;
     padding: 8px;
-}
-
-.input-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }

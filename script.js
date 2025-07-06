@@ -1,3 +1,59 @@
+// Ensure categories are populated on DOMContentLoaded for setup.html
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('categorySelect')) {
+        populateCategories();
+    }
+});
+// Category management functions (shared by setup.html and index.html)
+const defaultCategories = [
+    'Bank Checking',
+    'Credit Card'
+];
+
+function getAllCategories() {
+    let custom = JSON.parse(localStorage.getItem('customCategories') || '[]');
+    let defaults = JSON.parse(localStorage.getItem('defaultCategories') || '[]');
+    if (!defaults.length) {
+        localStorage.setItem('defaultCategories', JSON.stringify(defaultCategories));
+        defaults = [...defaultCategories];
+    }
+    return [...defaults, ...custom];
+}
+
+function populateCategories() {
+    var categorySelect = document.getElementById('categorySelect');
+    if (categorySelect) {
+        categorySelect.innerHTML = '';
+        let allCategories = getAllCategories();
+        allCategories.forEach(function(cat) {
+            var newOption = document.createElement('option');
+            newOption.value = cat;
+            newOption.text = cat;
+            categorySelect.add(newOption);
+        });
+    }
+}
+
+function deleteCategory() {
+    var categorySelect = document.getElementById('categorySelect');
+    if (categorySelect && categorySelect.selectedIndex !== -1) {
+        let toDelete = categorySelect.value;
+        let custom = JSON.parse(localStorage.getItem('customCategories') || '[]');
+        let defaults = JSON.parse(localStorage.getItem('defaultCategories') || '[]');
+        // Try to remove from custom first
+        if (custom.includes(toDelete)) {
+            custom = custom.filter(cat => cat !== toDelete);
+            localStorage.setItem('customCategories', JSON.stringify(custom));
+        } else if (defaults.includes(toDelete)) {
+            defaults = defaults.filter(cat => cat !== toDelete);
+            localStorage.setItem('defaultCategories', JSON.stringify(defaults));
+        }
+        populateCategories();
+    }
+}
+
+// Expose for inline HTML usage
+window.deleteCategory = deleteCategory;
 document.getElementById('excelFileInput').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
@@ -75,3 +131,36 @@ function displayData(data) {
 
     dataDisplay.appendChild(table);
 }
+
+function addCategory() {
+    var newCategoryInput = document.getElementById('newCategoryInput');
+    var newCategoryValue = newCategoryInput.value.trim();
+
+    if (newCategoryValue !== '') {
+        // Save to localStorage
+        let categories = JSON.parse(localStorage.getItem('customCategories') || '[]');
+        if (!categories.includes(newCategoryValue)) {
+            categories.push(newCategoryValue);
+            localStorage.setItem('customCategories', JSON.stringify(categories));
+        }
+        newCategoryInput.value = '';
+        alert('Category added! It will appear in the dropdown on the main page.');
+    }
+}
+
+// On index.html, populate the dropdown with custom categories from localStorage
+document.addEventListener('DOMContentLoaded', function() {
+    var categorySelect = document.getElementById('categorySelect');
+    if (categorySelect) {
+        let categories = JSON.parse(localStorage.getItem('customCategories') || '[]');
+        categories.forEach(function(cat) {
+            // Avoid duplicates
+            if (![...categorySelect.options].some(opt => opt.value === cat)) {
+                var newOption = document.createElement('option');
+                newOption.value = cat;
+                newOption.text = cat;
+                categorySelect.add(newOption);
+            }
+        });
+    }
+});
