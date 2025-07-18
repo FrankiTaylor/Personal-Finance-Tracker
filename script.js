@@ -1,12 +1,13 @@
-// Ensure categories are populated on DOMContentLoaded for setup.html
 document.addEventListener('DOMContentLoaded', function() {
+    // Ensure categories are populated on DOMContentLoaded for setup.html
     if (document.getElementById('categorySelect')) {
         populateCategories();
     }
 });
-// Category management functions (shared by setup.html and index.html)
+
 const defaultCategories = [
     'Bank Checking',
+    'Savings',
     'Credit Card'
 ];
 
@@ -133,19 +134,36 @@ function displayData(data) {
 }
 
 function addCategory() {
-    var newCategoryInput = document.getElementById('newCategoryInput');
-    var newCategoryValue = newCategoryInput.value.trim();
+    var categorySelectInput = document.getElementById('categorySelect');
+    var categorySelectValue = categorySelectInput.value;
+    var newNameValueInput = document.getElementById('inputName');
+    var newNameValue = newNameValueInput.value.trim();
 
-    if (newCategoryValue !== '') {
+    if (newNameValue !== '') {
         // Save to localStorage
+        newNameValue += ' - ' + categorySelectValue;
         let categories = JSON.parse(localStorage.getItem('customCategories') || '[]');
-        if (!categories.includes(newCategoryValue)) {
-            categories.push(newCategoryValue);
+        if (!categories.includes(newNameValue)) {
+            categories.push(newNameValue);
             localStorage.setItem('customCategories', JSON.stringify(categories));
-        }
-        newCategoryInput.value = '';
+            newNameValueInput.value = '';
+
         alert('Category added! It will appear in the dropdown on the main page.');
+
+        // Populate categories to update the dropdown
+        populateCategories();
+        }
+        else {
+            alert('Account already exists!');
+        }
+        
     }
+}
+
+// added for testing functionality
+function clearLocalStorage(){
+    localStorage.clear();
+    alert('LocalStorage cleared!');
 }
 
 // On index.html, populate the dropdown with custom categories from localStorage

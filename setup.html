@@ -15,23 +15,30 @@
 
     <div class="container">
         <h1>Setup Accounts</h1>
-        <p>This is another page in the project.</p>
+        <p>Enter account information for CSV information to be saved under.</p>
     </div>
 
     <div class="input-row">
-        <label for="newCategoryInput">New Category:</label>
-        <input type="text" id="newCategoryInput" placeholder="Enter new category">
-        <button onclick="addCategory()">Add Category</button>
-
+        <label for="inputName" style="margin-left: 20px;">Name:</label>
+        <input type="text" id="inputName" placeholder="Enter a name"></input>
         <label for="categorySelect" style="margin-left: 20px;">Categories:</label>
         <select id="categorySelect"></select>
-        <button onclick="deleteCategory()" id="deleteCategoryBtn" style="margin-left: 10px;">Delete Selected</button>
+        <button onclick="addCategory()">Add Category</button>
 
-        <label for="inputName" style="margin-left: 20px;">Name:</label>
-        <input type="text" id="inputName" placeholder="Enter a name">
+        
+        <button onclick="deleteCategory()" id="deleteCategoryBtn" style="margin-left: 10px;">Delete Selected</button>
+        
     </div>
+
+    <button onclick="clearLocalStorage()" style="margin-left: 10px;">Clear Local Storage</button>
 
     <script src="xlsx.full.min.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Call populateCategories when the page loads
+        window.onload = function() {
+            populateCategories();
+        };
+    </script>
 </body>
 </html>
