@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project</title>
+    <title>Finance Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,10 +16,8 @@
     <div class="container">
         <h1>Load CSV</h1>
         <div class="input-row">
-            <select id="categorySelect">
-                <option value="Bank Checking">Checking</option>
-                <option value="Credit Card">Credit Card</option>
-            </select>
+            <label for="accountSelect">Account:</label>
+            <select id="accountSelect"></select>
             <label for="inputName">Name:</label>
             <input type="text" id="inputName" placeholder="Enter a name">
             <input type="file" id="excelFileInput" accept=".xlsx, .xls">
@@ -27,7 +25,14 @@
         <div id="dataDisplay" class="data-display"></div>
     </div>
 
+    <!-- Scripts at the end of body for faster page load -->
     <script src="xlsx.full.min.js"></script>
     <script src="script.js"></script>
+    <script>
+    // Call populateAccounts when the page loads
+        window.onload = function() {
+            populateAccounts();
+        };
+    </script>
 </body>
 </html>

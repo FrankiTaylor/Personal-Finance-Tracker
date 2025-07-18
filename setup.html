@@ -15,23 +15,24 @@
 
     <div class="container">
         <h1>Setup Accounts</h1>
-        <p>Enter account information for CSV information to be saved under.</p>
+        <p>Enter account information for CSV data to be saved under.</p>
     </div>
 
     <div class="input-row">
         <label for="inputName" style="margin-left: 20px;">Name:</label>
-        <input type="text" id="inputName" placeholder="Enter a name"></input>
+        <input type="text" id="inputName" placeholder="Enter a name">
+
         <label for="categorySelect" style="margin-left: 20px;">Categories:</label>
         <select id="categorySelect"></select>
-        <button onclick="addCategory()">Add Category</button>
 
-        
+        <button onclick="addAccount()">Add Account</button>
+
         <button onclick="deleteCategory()" id="deleteCategoryBtn" style="margin-left: 10px;">Delete Selected</button>
-        
     </div>
 
     <button onclick="clearLocalStorage()" style="margin-left: 10px;">Clear Local Storage</button>
 
+    <!-- Scripts at the end of body for faster page load -->
     <script src="xlsx.full.min.js"></script>
     <script src="script.js"></script>
     <script>
