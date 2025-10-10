@@ -8,20 +8,36 @@ document.addEventListener('DOMContentLoaded', function() {
         populateAccounts();
     }
 
-    // // On index.html, populate the dropdown with custom categories from localStorage
-    // var categorySelect = document.getElementById('categorySelect');
-    // if (categorySelect) {
-    //     let categories = JSON.parse(localStorage.getItem('customCategories') || '[]');
-    //     categories.forEach(function(cat) {
-    //         // Avoid duplicates
-    //         if (![...categorySelect.options].some(opt => opt.value === cat)) {
-    //             var newOption = document.createElement('option');
-    //             newOption.value = cat;
-    //             newOption.text = cat;
-    //             categorySelect.add(newOption);
-    //         }
-    //     });
-    // }
+    // Add JavaScript to handle collapsible sections
+    var coll = document.getElementsByClassName("edit-section");
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+                content.style.marginLeft = "-19px";
+            }
+        });
+    }
+
+
+    // On index.html, populate the dropdown with custom categories from localStorage
+    var categorySelect = document.getElementById('categorySelect');
+    if (categorySelect) {
+        let categories = JSON.parse(localStorage.getItem('customCategories') || '[]');
+        categories.forEach(function(cat) {
+            // Avoid duplicates
+            if (![...categorySelect.options].some(opt => opt.value === cat)) {
+                var newOption = document.createElement('option');
+                newOption.value = cat;
+                newOption.text = cat;
+                categorySelect.add(newOption);
+            }
+        });
+    }
 });
 
 const defaultCategories = [
@@ -231,6 +247,8 @@ function addAccount() {
         }
     }
 }
+
+
 
 // Added for testing functionality
 function clearLocalStorage() {
