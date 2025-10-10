@@ -150,41 +150,18 @@ document.getElementById('excelFileInput').addEventListener('change', function(ev
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
-            let jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-            // Convert 'Date' column values to string if present
-            if (jsonData.length > 0) {
-                const dateColIndex = jsonData[0].findIndex(h => h.toLowerCase() === 'date');
-                if (dateColIndex !== -1) {
-                    for (let i = 1; i < jsonData.length; i++) {
-                        let cell = jsonData[i][dateColIndex];
-                        if (typeof cell === 'number') {
-                            // Convert Excel date serial to string (YYYY-MM-DD)
-                            const date = XLSX.SSF.parse_date_code(cell);
-                            if (date) {
-                                const yyyy = date.y;
-                                const mm = String(date.m).padStart(2, '0');
-                                const dd = String(date.d).padStart(2, '0');
-                                jsonData[i][dateColIndex] = `${yyyy}-${mm}-${dd}`;
-                            } else {
-                                jsonData[i][dateColIndex] = String(cell);
-                            }
-                        } else if (cell !== undefined && cell !== null) {
-                            jsonData[i][dateColIndex] = String(cell);
-                        }
-                    }
-                }
-            }
-
-            displayData(jsonData);
+            const text = e.target.result;
+            const data = parseCSV(text);
+            displayData(data);
         };
-        reader.readAsArrayBuffer(file);
+        reader.readAsText(file);
     }
 });
+
+function parseCSV(text) {
+    const lines = text.split('\n');
+    return lines.map(line => line.split(','));
+}
 
 function displayData(data) {
     const dataDisplay = document.getElementById('dataDisplay');
