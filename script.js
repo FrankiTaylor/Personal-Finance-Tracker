@@ -1,29 +1,117 @@
-// Ensure categories are populated on DOMContentLoaded for setup.html
 document.addEventListener('DOMContentLoaded', function() {
+    // Ensure categories are populated on DOMContentLoaded for setup.html
     if (document.getElementById('categorySelect')) {
         populateCategories();
     }
+
+    if(document.getElementById('accountSelect')) {
+        populateAccounts();
+    }
+
+    // Add JavaScript to handle collapsible sections
+    var coll = document.getElementsByClassName("edit-section");
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+                content.style.marginLeft = "-19px";
+            }
+        });
+    }
+
+
+    // On index.html, populate the dropdown with custom categories from localStorage
+    var categorySelect = document.getElementById('categorySelect');
+    if (categorySelect) {
+        let categories = JSON.parse(localStorage.getItem('customCategories') || '[]');
+        categories.forEach(function(cat) {
+            // Avoid duplicates
+            if (![...categorySelect.options].some(opt => opt.value === cat)) {
+                var newOption = document.createElement('option');
+                newOption.value = cat;
+                newOption.text = cat;
+                categorySelect.add(newOption);
+            }
+        });
+    }
 });
-// Category management functions (shared by setup.html and index.html)
+
 const defaultCategories = [
     'Bank Checking',
+    'Savings',
     'Credit Card'
 ];
+
+const defaultAccounts = ['Setup account'];
+
+function getAllAccounts() {
+    let accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+    let defaults = JSON.parse(localStorage.getItem('defaultAccounts') || '[]');
+
+    // Add default account only if no custom accounts are present
+    if(!defaults.length) {
+        localStorage.setItem('defaultAccounts', JSON.stringify(defaultAccounts));
+        defaults = [...defaultAccounts];
+        let allAccounts = [...new Set([...defaults, ...accounts])];
+        return allAccounts;
+    }
+    // Add all the added accounts excluding the default value
+    else{
+        let allAccounts = [...new Set([...accounts])];
+        return allAccounts;
+    }
+}
+
+function populateAccounts() {
+    var accountSelect = document.getElementById('accountSelect');
+
+    if (accountSelect) {
+        accountSelect.innerHTML = '';
+        
+        let allAccounts = getAllAccounts();
+
+        // Add default account only if no custom accounts are present
+        if(!allAccounts.length){
+            var defaultOption = document.createElement('option');
+            defaultOption.value = defaultAccounts;
+            defaultOption.text = defaultAccounts;
+            accountSelect.add(defaultOption);
+        } 
+
+        allAccounts.forEach(function(acc) {
+            var newOption = document.createElement('option');
+            newOption.value = acc;
+            newOption.text = acc;
+            accountSelect.add(newOption);
+        });
+    }
+}
 
 function getAllCategories() {
     let custom = JSON.parse(localStorage.getItem('customCategories') || '[]');
     let defaults = JSON.parse(localStorage.getItem('defaultCategories') || '[]');
+
+    // Ensure defaults are set if not already in localStorage
     if (!defaults.length) {
         localStorage.setItem('defaultCategories', JSON.stringify(defaultCategories));
         defaults = [...defaultCategories];
     }
-    return [...defaults, ...custom];
+
+    // Combine and remove duplicates
+    let allCategories = [...new Set([...defaults, ...custom])];
+
+    return allCategories;
 }
 
 function populateCategories() {
     var categorySelect = document.getElementById('categorySelect');
     if (categorySelect) {
-        categorySelect.innerHTML = '';
+        categorySelect.innerHTML = ''; // Clear existing options
+
         let allCategories = getAllCategories();
         allCategories.forEach(function(cat) {
             var newOption = document.createElement('option');
@@ -40,6 +128,7 @@ function deleteCategory() {
         let toDelete = categorySelect.value;
         let custom = JSON.parse(localStorage.getItem('customCategories') || '[]');
         let defaults = JSON.parse(localStorage.getItem('defaultCategories') || '[]');
+
         // Try to remove from custom first
         if (custom.includes(toDelete)) {
             custom = custom.filter(cat => cat !== toDelete);
@@ -48,52 +137,31 @@ function deleteCategory() {
             defaults = defaults.filter(cat => cat !== toDelete);
             localStorage.setItem('defaultCategories', JSON.stringify(defaults));
         }
+
         populateCategories();
     }
 }
 
 // Expose for inline HTML usage
 window.deleteCategory = deleteCategory;
+
 document.getElementById('excelFileInput').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: 'array' });
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
-            let jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-            // Convert 'Date' column values to string if present
-            if (jsonData.length > 0) {
-                const dateColIndex = jsonData[0].findIndex(h => h.toLowerCase() === 'date');
-                if (dateColIndex !== -1) {
-                    for (let i = 1; i < jsonData.length; i++) {
-                        let cell = jsonData[i][dateColIndex];
-                        if (typeof cell === 'number') {
-                            // Convert Excel date serial to string (YYYY-MM-DD)
-                            const date = XLSX.SSF.parse_date_code(cell);
-                            if (date) {
-                                const yyyy = date.y;
-                                const mm = String(date.m).padStart(2, '0');
-                                const dd = String(date.d).padStart(2, '0');
-                                jsonData[i][dateColIndex] = `${yyyy}-${mm}-${dd}`;
-                            } else {
-                                jsonData[i][dateColIndex] = String(cell);
-                            }
-                        } else if (cell !== undefined && cell !== null) {
-                            jsonData[i][dateColIndex] = String(cell);
-                        }
-                    }
-                }
-            }
-
-            displayData(jsonData);
+            const text = e.target.result;
+            const data = parseCSV(text);
+            displayData(data);
         };
-        reader.readAsArrayBuffer(file);
+        reader.readAsText(file);
     }
 });
+
+function parseCSV(text) {
+    const lines = text.split('\n');
+    return lines.map(line => line.split(','));
+}
 
 function displayData(data) {
     const dataDisplay = document.getElementById('dataDisplay');
@@ -132,35 +200,36 @@ function displayData(data) {
     dataDisplay.appendChild(table);
 }
 
-function addCategory() {
-    var newCategoryInput = document.getElementById('newCategoryInput');
-    var newCategoryValue = newCategoryInput.value.trim();
+function addAccount() {
+    var categorySelectInput = document.getElementById('categorySelect');
+    var categorySelectValue = categorySelectInput.value;
+    var newNameValueInput = document.getElementById('inputName');
+    var newNameValue = newNameValueInput.value.trim();
 
-    if (newCategoryValue !== '') {
+    if (newNameValue !== '') {
         // Save to localStorage
-        let categories = JSON.parse(localStorage.getItem('customCategories') || '[]');
-        if (!categories.includes(newCategoryValue)) {
-            categories.push(newCategoryValue);
-            localStorage.setItem('customCategories', JSON.stringify(categories));
+        newNameValue += ' - ' + categorySelectValue;
+        let accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+        if (!accounts.includes(newNameValue)) {
+            accounts.push(newNameValue);
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+            newNameValueInput.value = '';
+
+            alert('Account added! It will appear in the dropdown on the main page.');
+
+            // Populate categories to update the dropdown
+            populateAccounts();
+        } else {
+            alert('Account already exists!');
         }
-        newCategoryInput.value = '';
-        alert('Category added! It will appear in the dropdown on the main page.');
     }
 }
 
-// On index.html, populate the dropdown with custom categories from localStorage
-document.addEventListener('DOMContentLoaded', function() {
-    var categorySelect = document.getElementById('categorySelect');
-    if (categorySelect) {
-        let categories = JSON.parse(localStorage.getItem('customCategories') || '[]');
-        categories.forEach(function(cat) {
-            // Avoid duplicates
-            if (![...categorySelect.options].some(opt => opt.value === cat)) {
-                var newOption = document.createElement('option');
-                newOption.value = cat;
-                newOption.text = cat;
-                categorySelect.add(newOption);
-            }
-        });
-    }
-});
+
+
+// Added for testing functionality
+function clearLocalStorage() {
+    localStorage.clear();
+    populateCategories();
+    alert('LocalStorage cleared!');
+}

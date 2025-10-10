@@ -8,28 +8,46 @@
 </head>
 <body>
     <nav>
-        <a href="index.html" > Home</a>
-        <a href="setup.html" > Setup Accounts</a>
-        <a href="overview.html" > Overview </a>
+        <a href="index.html">Home</a>
+        <a href="setup.html">Setup Accounts</a>
+        <a href="overview.html">Overview</a>
     </nav>
 
     <div class="container">
         <h1>Setup Accounts</h1>
-        <p>This is another page in the project.</p>
+        <p>Enter account information for CSV data to be saved under.</p>
     </div>
 
+    <!-- Account Creation Section -->
     <div class="input-row">
-        <label for="newCategoryInput">New Category:</label>
-        <input type="text" id="newCategoryInput" placeholder="Enter new category">
-        <button onclick="addCategory()">Add Category</button>
-        <label for="categorySelect" style="margin-left:20px;">Categories:</label>
-        <select id="categorySelect"></select>
-        <button onclick="deleteCategory()" id="deleteCategoryBtn" style="margin-left:10px;">Delete Selected</button>
-        <label for="inputName" style="margin-left:20px;">Name:</label>
+        <label for="inputName">Name:</label>
         <input type="text" id="inputName" placeholder="Enter a name">
+
+        <label for="categorySelect">Categories:</label>
+        <select id="categorySelect"></select>
+
+        <button onclick="addAccount()">Add Account</button>
+        <button onclick="deleteCategory()" id="deleteCategoryBtn">Delete Selected</button>
+    </div>
+    
+    <!-- Account Editing Section -->
+    <div class="edit-section">
+        <div class="edit-row">
+            <label for="accountSelect">Delete Account:</label>
+            <select id="accountSelect"></select>
+        </div>
     </div>
 
-    <script src="xlsx.full.min.js"></script>
+    <button onclick="clearLocalStorage()">Clear Local Storage</button>
+
+    <!-- Scripts at the end of body for faster page load -->
+    
     <script src="script.js"></script>
+    <script>
+        // Call populateCategories when the page loads
+        window.onload = function() {
+            populateCategories();
+        };
+    </script>
 </body>
 </html>
