@@ -1,147 +1,135 @@
 /* General Styles */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #121212;
-    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    background-color: lightgray;
     margin: 0;
     padding: 20px;
+    color: black;
 }
 
 .container {
-    max-width: 960px;
+    max-width: auto;
     margin: auto;
+    /* background-color: gray; */
     padding: 20px;
+    /* border-radius: 8px; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 h1 {
     text-align: center;
-    color: #e0e0e0;
-}
-
-/* Navigation */
-nav {
-    background-color: #1e1e1e;
-    padding: 10px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #e0e0e0;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-nav a:hover {
-    background-color: #007BFF;
+    color: black;
 }
 
 /* Input and Button Styles */
-.input-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-input[type="text"],
-select {
-    padding: 10px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    background-color: #252525;
-    color: #e0e0e0;
-    flex-grow: 1;
-}
-
 input[type="file"] {
-    padding: 10px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    background-color: #252525;
-    color: #e0e0e0;
-    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
 }
 
 button {
+    display: block;
+    margin: 20px auto;
     padding: 10px 20px;
     background-color: #007BFF;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #0056b3;
+nav a:hover {
+    background-color: darkgray;
+    cursor: pointer;
+}
+
+nav a {
+    text-decoration: none;
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: darkgray;
+}
+
+.overview-button, .setupAccounts-button, .home-button{
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    background-color: transparent;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+#addCategory-button {
+    position: fixed;
+    top: 0;
+    bottom: 900px;
+    left: 240px;
+    right: 300px;
+    padding: 10px 20px;
+    background-color: pink;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: auto;
 }
 
 /* Table Styles */
 .data-display {
     margin-top: 20px;
-}
-
-.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.data-table th,
-.data-table td {
-    border: 1px solid #333;
-    padding: 12px;
-    text-align: left;
-}
-
-.data-table th {
-    background-color: #007BFF;
     color: white;
 }
 
-.data-table tr:nth-child(even) {
-    background-color: #252525;
-}
-
-.data-table td[contenteditable="true"] {
-    background-color: #2c2c2c;
-}
-
-/* Collapsible Sections */
-.edit-section {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-    cursor: pointer;
-    padding: 18px;
+table {
     width: 100%;
-    border: none;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid white;
+    padding: 8px;
     text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 0.4s;
-    border-radius: 8px;
-    margin-top: 10px;
 }
 
-.active, .edit-section:hover {
-    background-color: #333;
+th {
+    background-color: transparent;
 }
 
-.edit-row {
-    padding: 0 18px;
-    display: none;
-    background-color: #1e1e1e;
-    overflow: hidden;
-    border-radius: 0 0 8px 8px;
+/* Categorized Data Styles */
+.categorized-data h2 {
+    margin-top: 20px;
+}
+
+.categorized-data ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+
+.categorized-data li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    padding: 8px;
 }
