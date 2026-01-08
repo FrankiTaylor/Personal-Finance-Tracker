@@ -98,22 +98,25 @@ nav a {
 /* Table Styles */
 .data-display {
     margin-top: 20px;
-    color: white;
+    color: black; /* Changed from white to black */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    color: black; /* Ensure table text is black */
 }
 
 th, td {
-    border: 1px solid white;
+    border: 1px solid #000; /* Changed from white to black for better visibility */
     padding: 8px;
     text-align: left;
+    color: black; /* Ensure cell text is black */
 }
 
 th {
-    background-color: transparent;
+    background-color: #f0f0f0; /* Light gray header background */
+    color: black; /* Header text in black */
 }
 
 /* Categorized Data Styles */
